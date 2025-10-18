@@ -1,0 +1,14 @@
+<h2>Productos</h2>
+<button routerLink="/product/new">Nuevo Producto</button>
+<table>
+  <thead><tr><th>Nombre</th><th>Categoria</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr></thead>
+  <tbody>
+    <tr *ngFor="let p of products">
+      <td>{{p.name}}</td>
+      <td>{{p.category?.name}}</td>
+      <td>{{p.unitPrice}}</td>
+      <td>{{p.stock}}</td>
+      <td><button (click)="edit(p)">Editar</button> <button (click)="confirmDelete(p)">Eliminar</button></td>
+    </tr>
+  </tbody>
+</table>

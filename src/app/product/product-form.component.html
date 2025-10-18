@@ -1,0 +1,9 @@
+<form (ngSubmit)="save()" #f="ngForm">
+  <label>Nombre</label>
+  <input name="name" [(ngModel)]="product.name" required />
+  <label>Descripcion</label>
+  <input name="description" [(ngModel)]="product.description" required />
+  <label>Precio</label>
+  <input name="unitPrice" type="number" [(ngModel)]="product.unitPrice" required />
+  <button type="submit">Guardar</button>
+</form>
