@@ -1,9 +1,34 @@
+<h2>{{ isEditMode ? 'Editar Producto' : 'Nuevo Producto' }}</h2>
 <form (ngSubmit)="save()" #f="ngForm">
   <label>Nombre</label>
   <input name="name" [(ngModel)]="product.name" required />
-  <label>Descripcion</label>
-  <input name="description" [(ngModel)]="product.description" required />
-  <label>Precio</label>
-  <input name="unitPrice" type="number" [(ngModel)]="product.unitPrice" required />
-  <button type="submit">Guardar</button>
+  
+  <!-- Se eliminan descripción, presentación, stock y precio unitario -->
+  
+   <label>Categoría</label>
+   <select name="category" [(ngModel)]="product.category" [compareWith]="compareCategory" required>
+     <option [ngValue]="null">-- Seleccione --</option>
+     <option *ngFor="let c of categories" [ngValue]="c">{{ c.name }}</option>
+   </select>
+   <div class="error" *ngIf="categoriesError">{{ categoriesError }} <button type="button" (click)="loadCatalogs()">Reintentar</button></div>
+   <div *ngIf="loadingCategories">Cargando categorías...</div>
+
+   <label>Familia</label>
+   <select name="family" [(ngModel)]="product.family" [compareWith]="compareFamily" required>
+     <option [ngValue]="null">-- Seleccione --</option>
+     <option *ngFor="let f of families" [ngValue]="f">{{ f.name }}</option>
+   </select>
+   <div class="error" *ngIf="familiesError">{{ familiesError }} <button type="button" (click)="loadCatalogs()">Reintentar</button></div>
+   <div *ngIf="loadingFamilies">Cargando familias...</div>
+
+   <label>Laboratorio</label>
+   <select name="laboratory" [(ngModel)]="product.laboratory" [compareWith]="compareLaboratory" required>
+     <option [ngValue]="null">-- Seleccione --</option>
+     <option *ngFor="let l of laboratories" [ngValue]="l">{{ l.name }}</option>
+   </select>
+   <div class="error" *ngIf="laboratoriesError">{{ laboratoriesError }} <button type="button" (click)="loadCatalogs()">Reintentar</button></div>
+   <div *ngIf="loadingLaboratories">Cargando laboratorios...</div>
+
+  <button type="submit" [disabled]="!f.valid">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
+  <button type="button" (click)="cancel()">Cancelar</button>
 </form>

@@ -1,14 +1,34 @@
 <h2>Productos</h2>
 <button routerLink="/product/new">Nuevo Producto</button>
 <table>
-  <thead><tr><th>Nombre</th><th>Categoria</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr></thead>
+  <thead><tr><th>Nombre</th><th>Categoria</th><th>Familia</th><th>Laboratorio</th><th>Acciones</th></tr></thead>
   <tbody>
     <tr *ngFor="let p of products">
       <td>{{p.name}}</td>
-      <td>{{p.category?.name}}</td>
-      <td>{{p.unitPrice}}</td>
-      <td>{{p.stock}}</td>
-      <td><button (click)="edit(p)">Editar</button> <button (click)="confirmDelete(p)">Eliminar</button></td>
+      <td>{{p.category?.name || 'N/A'}}</td>
+      <td>{{p.family?.name || 'N/A'}}</td>
+      <td>{{p.laboratory?.name || 'N/A'}}</td>
+      <td>
+        <button class="edit-btn" (click)="edit(p)">Editar</button>
+        <button class="delete-btn" (click)="confirmDelete(p)">Eliminar</button>
+      </td>
     </tr>
   </tbody>
 </table>
+
+<!-- Modal de confirmación -->
+<div class="modal-backdrop" *ngIf="showConfirm"></div>
+<div class="modal" *ngIf="showConfirm">
+  <div class="modal-content">
+    <h3>Confirmar eliminación</h3>
+    <p>¿Desea eliminar "{{ toDelete?.name }}"?</p>
+  <p *ngIf="toDelete?.category?.name"><strong>Categoría:</strong> {{ toDelete?.category?.name }}</p>
+  <p *ngIf="toDelete?.family?.name"><strong>Familia:</strong> {{ toDelete?.family?.name }}</p>
+  <p *ngIf="toDelete?.laboratory?.name"><strong>Laboratorio:</strong> {{ toDelete?.laboratory?.name }}</p>
+    <div class="modal-actions">
+      <button class="delete-btn" (click)="deleteConfirmed()">Eliminar</button>
+      <button type="button" (click)="cancelDelete()">Cancelar</button>
+    </div>
+  </div>
+  
+</div>
