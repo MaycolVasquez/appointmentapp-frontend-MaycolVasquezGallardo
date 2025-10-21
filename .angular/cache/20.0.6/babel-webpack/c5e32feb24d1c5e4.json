@@ -1,1 +1,0 @@
-{"ast":null,"code":"export const environment = {\n  production: true,\n  apiUrl: 'https://api.production.com/api',\n  endpoints: {\n    products: 'products',\n    categories: 'categories',\n    families: 'families',\n    laboratories: 'laboratories'\n  }\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
