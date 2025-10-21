@@ -1,33 +1,51 @@
 <h2>{{ isEditMode ? 'Editar Producto' : 'Nuevo Producto' }}</h2>
-<form (ngSubmit)="save()" #f="ngForm">
+<form (ngSubmit)="save(f)" #f="ngForm">
   <label>Nombre</label>
   <input name="name" [(ngModel)]="product.name" required />
   
-  <!-- Se eliminan descripción, presentación, stock y precio unitario -->
+  <label>Descripción (opcional)</label>
+  <input name="description" [(ngModel)]="product.description" />
   
-   <label>Categoría</label>
-   <select name="category" [(ngModel)]="product.category" [compareWith]="compareCategory" required>
-     <option [ngValue]="null">-- Seleccione --</option>
-     <option *ngFor="let c of categories" [ngValue]="c">{{ c.name }}</option>
-   </select>
-   <div class="error" *ngIf="categoriesError">{{ categoriesError }} <button type="button" (click)="loadCatalogs()">Reintentar</button></div>
-   <div *ngIf="loadingCategories">Cargando categorías...</div>
+  <label>Presentación (opcional)</label>
+  <input name="presentation" [(ngModel)]="product.presentation" />
+  
+  <label>Stock (opcional)</label>
+  <input type="number" name="stock" [(ngModel)]="product.stock" min="0" />
+  
+  <label>Precio Unitario (opcional)</label>
+  <input type="number" name="unitPrice" [(ngModel)]="product.unitPrice" min="0.01" step="0.01" />
+  
+  <label>
+    <input type="checkbox" name="expired" [(ngModel)]="product.expired" />
+    Vencido
+  </label>
+  
+  <label>Categoría</label>
+  <select name="categoryId" [(ngModel)]="selectedCategoryId" required>
+    <option [ngValue]="null">-- Seleccione --</option>
+    <option *ngFor="let c of categories" [ngValue]="c.idCategory ?? c.idCategoria ?? c.id">{{ c.name ?? c.nombre ?? c.descripcion ?? c.description }}</option>
+  </select>
+  <div class="error" *ngIf="f.submitted && selectedCategoryId === null">Seleccione una categoría.</div>
+  <div class="error" *ngIf="categoriesError">{{ categoriesError }} <button type="button" (click)="loadCatalogs()">Reintentar</button></div>
+  <div *ngIf="loadingCategories">Cargando categorías...</div>
 
-   <label>Familia</label>
-   <select name="family" [(ngModel)]="product.family" [compareWith]="compareFamily" required>
-     <option [ngValue]="null">-- Seleccione --</option>
-     <option *ngFor="let f of families" [ngValue]="f">{{ f.name }}</option>
-   </select>
-   <div class="error" *ngIf="familiesError">{{ familiesError }} <button type="button" (click)="loadCatalogs()">Reintentar</button></div>
-   <div *ngIf="loadingFamilies">Cargando familias...</div>
+  <label>Familia</label>
+  <select name="familyId" [(ngModel)]="selectedFamilyId" required>
+    <option [ngValue]="null">-- Seleccione --</option>
+    <option *ngFor="let f of families" [ngValue]="f.idFamily ?? f.idFamilia ?? f.id">{{ f.name ?? f.nombre ?? f.descripcion ?? f.description }}</option>
+  </select>
+  <div class="error" *ngIf="f.submitted && selectedFamilyId === null">Seleccione una familia.</div>
+  <div class="error" *ngIf="familiesError">{{ familiesError }} <button type="button" (click)="loadCatalogs()">Reintentar</button></div>
+  <div *ngIf="loadingFamilies">Cargando familias...</div>
 
-   <label>Laboratorio</label>
-   <select name="laboratory" [(ngModel)]="product.laboratory" [compareWith]="compareLaboratory" required>
-     <option [ngValue]="null">-- Seleccione --</option>
-     <option *ngFor="let l of laboratories" [ngValue]="l">{{ l.name }}</option>
-   </select>
-   <div class="error" *ngIf="laboratoriesError">{{ laboratoriesError }} <button type="button" (click)="loadCatalogs()">Reintentar</button></div>
-   <div *ngIf="loadingLaboratories">Cargando laboratorios...</div>
+  <label>Laboratorio</label>
+  <select name="laboratoryId" [(ngModel)]="selectedLaboratoryId" required>
+    <option [ngValue]="null">-- Seleccione --</option>
+    <option *ngFor="let l of laboratories" [ngValue]="l.idLaboratory ?? l.idLaboratorio ?? l.id">{{ l.name ?? l.nombre ?? l.descripcion ?? l.description }}</option>
+  </select>
+  <div class="error" *ngIf="f.submitted && selectedLaboratoryId === null">Seleccione un laboratorio.</div>
+  <div class="error" *ngIf="laboratoriesError">{{ laboratoriesError }} <button type="button" (click)="loadCatalogs()">Reintentar</button></div>
+  <div *ngIf="loadingLaboratories">Cargando laboratorios...</div>
 
   <button type="submit" [disabled]="!f.valid">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
   <button type="button" (click)="cancel()">Cancelar</button>
